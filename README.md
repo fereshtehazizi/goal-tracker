@@ -32,64 +32,6 @@ The app is fully responsive and works on both mobile and desktop devices.
 
 ---
 
-## 📁 Project Structure
-
-React.js
-└── Assignment6
-└── src
-├── components
-│ ├── GoalsDetails.jsx
-│ ├── Topbar.jsx
-│ └── Sidebar.jsx
-│
-├── context
-│ └── AuthContext.jsx
-│
-├── firebase
-│ └── config.js
-│
-├── hooks
-│ ├── goalsCache.js
-│ └── useGoals.js
-│
-├── pages
-│ ├── Analytics.jsx
-│ ├── Auth.jsx
-│ ├── Calendar.jsx
-│ ├── Categories.jsx
-│ ├── CreateGoal.jsx
-│ ├── Dashboard.jsx
-│ ├── Goals.jsx
-│ └── Settings.jsx
-│
-├── utils
-│ ├── goalUtils.js
-│ ├── profileStorage.js
-│ └── storage.js
-│
-├── App.jsx
-├── i18n.js
-├── index.css
-├── main.jsx
-├── rtlCache.js
-└── theme.js
-
-
-## How to Run the Project
-
-```bash
-# 1. Clone repository
-git clone https://github.com/fereshtehazizi/goal-tracker.git
-
-# 2. Go to project folder
-cd Assignment6
-
-# 3. Install dependencies
-npm install
-
-# 4. Start development server
-npm run dev
-
 ## Language System (RTL / LTR)
 
 This project supports 3 languages:
@@ -110,3 +52,21 @@ XP is awarded daily based on goal activity
 A streak increases when the user completes at least one goal per day
 Consecutive active days increase streak count
 Missing a day resets streak to 0
+
+
+
+## How to Run the Project
+
+```bash
+# 1. Clone repository
+git clone https://github.com/fereshtehazizi/goal-tracker.git
+
+# 2. Go to project folder
+cd Assignment6
+
+# 3. Install dependencies
+npm install
+
+# 4. Start development server
+npm run dev
+
