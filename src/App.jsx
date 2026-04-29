@@ -43,6 +43,8 @@ export default function App() {
 
   const [showTransition, setShowTransition] = useState(false);
   const [prevUser, setPrevUser] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
 
   useEffect(() => {
     if (!prevUser && user) {
@@ -105,7 +107,6 @@ export default function App() {
             key={lang}
             dir={isRTL ? "rtl" : "ltr"}
           >
-
             <Routes>
               <Route
                 path="/auth"
@@ -116,16 +117,20 @@ export default function App() {
                 element={
                   user ? (
                     <>
-                      <Navbar mode={mode} onToggleMode={toggleMode} />
+                      <Navbar mode={mode}
+                        onToggleMode={toggleMode}
+                        mobileOpen={mobileOpen}
+                        setMobileOpen={setMobileOpen} />
 
                       <Box sx={{ display: "flex" }}>
-                        <Sidebar />
+                        <Sidebar mobileOpen={mobileOpen}
+                          setMobileOpen={setMobileOpen} />
 
                         <Box
                           sx={{
                             flex: 1,
-                            py: 16,
-                            ml: { xs: 10, md: "240px" },
+                            py: { md: 16, xs: 3 },
+                            ml: { xs: 0, md: "240px" },
                           }}
                         >
                           <Container maxWidth="lg">
