@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -36,47 +36,42 @@ const navItems = [
   { key: "settings", icon: <SettingsIcon />, path: "/settings" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen, setMobileOpen }) {
   const [collapsed, setCollapsed] = useState(false);
+
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const isMobile = useMediaQuery("(max-width:900px)");
 
-  useEffect(() => {
-    if (isMobile) {
-      setCollapsed(true);
-    } else {
-      setCollapsed(false);
-    }
-  }, [isMobile]);
-
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      localStorage.removeItem("goals_cache");
-      localStorage.removeItem("userData");
+    await signOut(auth);
+    localStorage.clear();
+    navigate("/login");
+  };
 
-      navigate("/login");
-    } catch (err) {
-      console.error("Logout error:", err);
+  const toggleSidebar = () => {
+    if (isMobile) {
+      setMobileOpen(!mobileOpen);
+    } else {
+      setCollapsed(!collapsed);
     }
   };
 
   return (
     <Box
       sx={{
-        width: collapsed ? 80 : 240,
+        width: isMobile ? 240 : collapsed ? 80 : 240,
         height: "100vh",
         position: "fixed",
-        left: 0,
+        left: isMobile ? (mobileOpen ? 0 : "-100%") : 0,
         top: 0,
         zIndex: 2000,
         borderRight: "1px solid",
         borderColor: "divider",
         display: "flex",
         flexDirection: "column",
-        transition: "width 0.3s ease",
+        transition: "all 0.3s ease",
         p: 2,
         backgroundColor: "background.paper",
       }}
@@ -85,18 +80,25 @@ export default function Sidebar() {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: collapsed ? "center" : "space-between",
+          justifyContent:
+            collapsed && !isMobile ? "center" : "space-between",
           mb: 2,
         }}
       >
-        {!collapsed && (
+        {(!collapsed || isMobile) && (
           <Typography variant="h6" fontWeight="bold">
             {t("goalTracker")}
           </Typography>
         )}
 
-        <IconButton onClick={() => setCollapsed(!collapsed)}>
-          {collapsed ? <MenuIcon /> : <MenuOpenIcon />}
+        <IconButton onClick={toggleSidebar}>
+          {isMobile ? (
+            <MenuOpenIcon />
+          ) : collapsed ? (
+            <MenuIcon />
+          ) : (
+            <MenuOpenIcon />
+          )}
         </IconButton>
       </Box>
 
@@ -106,61 +108,47 @@ export default function Sidebar() {
             key={item.key}
             to={item.path}
             style={{ textDecoration: "none", color: "inherit" }}
+            onClick={() => isMobile && setMobileOpen(false)}
           >
             {({ isActive }) => (
               <ListItemButton
                 sx={{
-                  justifyContent: collapsed ? "center" : "flex-start",
-                  px: collapsed ? 1 : 2,
+                  justifyContent:
+                    collapsed && !isMobile ? "center" : "flex-start",
+                  px: collapsed && !isMobile ? 1 : 2,
                   borderRadius: 1,
                   backgroundColor: isActive
                     ? "rgba(124, 58, 237, 0.15)"
                     : "transparent",
-                  "&:hover": {
-                    backgroundColor: "rgba(124, 58, 237, 0.1)",
-                  },
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: collapsed ? 0 : 2,
+                    mr: collapsed && !isMobile ? 0 : 2,
                     justifyContent: "center",
                   }}
                 >
                   {item.icon}
                 </ListItemIcon>
 
-                {!collapsed && <ListItemText primary={t(item.key)} />}
+                {(!collapsed || isMobile) && (
+                  <ListItemText primary={t(item.key)} />
+                )}
               </ListItemButton>
             )}
           </NavLink>
         ))}
       </List>
 
-      <Divider sx={{ my: 1 }} />
+      <Divider />
 
       <List>
-        <ListItemButton
-          onClick={handleLogout}
-          sx={{
-            justifyContent: collapsed ? "center" : "flex-start",
-            px: collapsed ? 1 : 2,
-            color: "error.main",
-          }}
-        >
-          <ListItemIcon
-            sx={{
-              minWidth: 0,
-              mr: collapsed ? 0 : 2,
-              justifyContent: "center",
-              color: "error.main",
-            }}
-          >
+        <ListItemButton onClick={handleLogout} onClick={handleLogout} sx={{ justifyContent: collapsed ? "center" : "flex-start", px: collapsed ? 1 : 2, color: "error.main", }}>
+          <ListItemIcon sx={{ minWidth: 0, mr: collapsed ? 0 : 2, justifyContent: "center", color: "error.main", }}>
             <LogoutIcon />
           </ListItemIcon>
-
-          {!collapsed && <ListItemText primary={t("logout")} />}
+          <ListItemText primary={t("logout")} />
         </ListItemButton>
       </List>
     </Box>
