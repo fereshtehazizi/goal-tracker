@@ -25,6 +25,8 @@ import {
 
 import { BarChart } from "@mui/x-charts/BarChart";
 import { PieChart } from "@mui/x-charts/PieChart";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { Star, ArrowUpDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +54,9 @@ const getStatus = (g, t) => {
 };
 
 export default function DashboardPage() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [animateIn, setAnimateIn] = useState(false);
   const { t } = useTranslation();
 
@@ -148,8 +153,8 @@ export default function DashboardPage() {
 
   const overall = goals.length
     ? Math.round(
-        goals.reduce((a, g) => a + (g.progress || 0), 0) / goals.length
-      )
+      goals.reduce((a, g) => a + (g.progress || 0), 0) / goals.length
+    )
     : 0;
 
   const maxProgress = useMemo(() => {
@@ -225,12 +230,12 @@ export default function DashboardPage() {
 
   return (
     <Box className="space-y-6 bg-background.paper min-h-screen" sx={{
-    opacity: animateIn ? 1 : 0,
-    transform: animateIn ? "translateY(0px)" : "translateY(30px)",
-    transition: "all 0.8s ease",
-  }}>
+      opacity: animateIn ? 1 : 0,
+      transform: animateIn ? "translateY(0px)" : "translateY(30px)",
+      transition: "all 0.8s ease",
+    }}>
       {loading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 10}}>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
           <CircularProgress />
         </Box>
       ) : (
@@ -391,11 +396,25 @@ export default function DashboardPage() {
                   series={[
                     {
                       innerRadius: 45,
-                      outerRadius: 80,
+                      outerRadius: 90,
                       data: pieData,
                     },
                   ]}
+                  colors={["#D6C89A", "#2F5D78", "#7A1F1F"]}
                   height={260}
+                  slotProps={{
+                    legend: {
+                      direction: isMobile ? "row" : "column",
+                      position: isMobile
+                        ? { vertical: "bottom", horizontal: "middle" }
+                        : { vertical: "middle", horizontal: "right" },
+                      itemMarkWidth: 10,
+                      itemMarkHeight: 10,
+                      labelStyle: {
+                        fontSize: 12,
+                      },
+                    },
+                  }}
                 />
 
                 <div className="mt-4 space-y-2">
