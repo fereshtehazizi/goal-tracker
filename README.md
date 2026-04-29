@@ -17,7 +17,7 @@ Goal Tracker is a productivity app where users can:
 - Use the app in multiple languages
 
 The app is fully responsive and works on both mobile and desktop devices.
-[Visit my project](https://goal-tracker-ecru-chi.vercel.app/auth)
+[Visit my project](https://goal-tracker-ecru-chi.vercel.app/)
 
 ---
 
