@@ -181,7 +181,7 @@ export default function Goals() {
                       bgcolor: "divider",
                       borderRadius: 10,
                       mt: 1,
-                      minWidth: 130,
+                      minWidth: 110,
                     }}
                   >
                     <Box
