@@ -54,8 +54,13 @@ Missing a day resets streak to 0
 
 
 ---
+![Desktop Screenshot](./public/screenshot.jpg)
+![Mobile Screenshot](./public/screenshot2.jpg)
 
-##  How to Run the Project
+
+---
+
+## How to Run the Project
 
 ```bash
 # 1. Clone repository
@@ -68,9 +73,4 @@ cd Assignment6
 npm install
 
 # 4. Start development server
-npm run dev
-
-
----
-![Desktop Screenshot](./public/screenshot.jpg)
-![Mobile Screenshot](./public/screenshot2.jpg)
+npm run dev 
