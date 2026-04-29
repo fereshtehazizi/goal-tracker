@@ -456,7 +456,7 @@ export default function CreateGoal() {
             </Card>
 
             <Snackbar
-                sx={{ ml: { xs: 10, md: "240px" } }}
+                sx={{ ml: { xs: 2, md: "240px" } }}
                 open={snackbar.open}
                 autoHideDuration={1500}
                 onClose={handleSnackbarClose}
@@ -465,7 +465,7 @@ export default function CreateGoal() {
                 <Alert
                     onClose={handleSnackbarClose}
                     severity={snackbar.severity}
-                    sx={{ maxWidth: "100%", ml: 12 }}
+                    sx={{ maxWidth: "100%", ml: {md: 12, xs: 1} }}
                 >
                     {snackbar.message}
                 </Alert>
