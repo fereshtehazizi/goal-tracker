@@ -1,72 +1,16 @@
-#  Goal Tracker App (Assignment 6)
+# React + Vite
 
-A modern **React.js Goal Tracker application** with gamified XP system, streak tracking, multilingual support, and full RTL/LTR layout compatibility.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This app helps users stay productive by tracking daily goals and rewarding consistency.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Project Overview
+## React Compiler
 
-Goal Tracker is a productivity app where users can:
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-- Create and manage personal goals
-- Track daily progress
-- Earn XP for completing goals
-- Maintain streaks for consistency
-- Use the app in multiple languages
+## Expanding the ESLint configuration
 
-The app is fully responsive and works on both mobile and desktop devices.
-
----
-
-## Tech Stack
-
-- React.js
-- Context API
-- Firebase (Authentication & Config)
-- i18next (Language system)
-- Custom Hooks
-- LocalStorage utilities
-- CSS / Theme system
-
----
-
-## Language System (RTL / LTR)
-
-This project supports 3 languages:
-
-🇬🇧 English (LTR)
-🇦🇫 Persian / Farsi (RTL)
-🇸🇦 Arabic (RTL)
-
-## XP & Streak System
-
-This app uses a gamification system to motivate users.
-
-⚡ XP Rules
-Completing 1 day progress = 20 XP
-XP is awarded daily based on goal activity
-
-🔥 Streak Rules
-A streak increases when the user completes at least one goal per day
-Consecutive active days increase streak count
-Missing a day resets streak to 0
-
-
-
-## How to Run the Project
-
-```bash
-# 1. Clone repository
-git clone https://github.com/fereshtehazizi/goal-tracker.git
-
-# 2. Go to project folder
-cd Assignment6
-
-# 3. Install dependencies
-npm install
-
-# 4. Start development server
-npm run dev
-
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
