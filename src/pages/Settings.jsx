@@ -188,13 +188,13 @@ export default function Settings({ setMode }) {
   return (
     <Box className="bg-background.paper min-h-screen ">
       <Snackbar
-        sx={{ ml: { xs: 10, md: "240px" } }}
+        sx={{ ml: { xs: 1, md: "240px" } }}
         open={!!toast}
         autoHideDuration={2500}
         onClose={() => setToast("")}
         message={toast}
       />
-      <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} PaperProps={{ sx: { borderRadius: 1, p: 1, maxWidth: 420, ml: 12, }, }}>
+      <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} PaperProps={{ sx: { borderRadius: 1, p: 1, maxWidth: 420, ml: {md: 12, xs: 2} } }}>
               <DialogTitle>
                 <Box className="flex items-center gap-2">
                   <i className="bx bx-error-circle text-red-600 text-2xl" />
