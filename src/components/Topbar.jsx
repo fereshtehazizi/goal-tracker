@@ -16,6 +16,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -31,7 +32,12 @@ import { signOut } from "firebase/auth";
 const DEFAULT_AVATAR =
   "https://i.pinimg.com/736x/d2/de/10/d2de10032597dc38ac19a57031a3fa47.jpg";
 
-export default function Topbar({ mode, onToggleMode }) {
+export default function Topbar({
+  mode,
+  onToggleMode,
+  mobileOpen,
+  setMobileOpen,
+}) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
@@ -71,7 +77,6 @@ export default function Topbar({ mode, onToggleMode }) {
 
   const handleThemeToggle = async () => {
     const newMode = mode === "dark" ? "light" : "dark";
-
     onToggleMode();
 
     const user = auth.currentUser;
@@ -107,7 +112,6 @@ export default function Topbar({ mode, onToggleMode }) {
     const unsub = onSnapshot(ref, (snap) => {
       if (snap.exists()) {
         const data = snap.data();
-
         setAvatar(data.avatar || DEFAULT_AVATAR);
         setEmail(data.email || "");
         localStorage.setItem("userData", JSON.stringify(data));
@@ -123,10 +127,7 @@ export default function Topbar({ mode, onToggleMode }) {
     setTimeout(() => {
       const el = document.getElementById(sectionId);
       if (el) {
-        el.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }, 120);
   };
@@ -138,7 +139,6 @@ export default function Topbar({ mode, onToggleMode }) {
       localStorage.removeItem("categories");
 
       await signOut(auth);
-
       setProfileAnchor(null);
       navigate("/login");
     } catch (err) {
@@ -155,7 +155,7 @@ export default function Topbar({ mode, onToggleMode }) {
         width: "100%",
         maxWidth: isMobile
           ? "100%"
-          : { md: "calc(100% - 240px)", xs: "calc(100% - 80px)" },
+          : { md: "calc(100% - 240px)", xs: "calc(100% - 40px)" },
         backgroundColor: "background.default",
         color: "text.primary",
       }}
@@ -184,7 +184,7 @@ export default function Topbar({ mode, onToggleMode }) {
               display: "flex",
               alignItems: "center",
               borderRadius: "17px",
-              width: isMobile ? "100%" : openSearch ? 450 : 42,
+              width: isMobile ? "auto" : openSearch ? 450 : 42,
               overflow: "hidden",
               border: "1px solid transparent",
               transition: "all 0.25s ease",
@@ -192,8 +192,14 @@ export default function Topbar({ mode, onToggleMode }) {
               "&:focus-within": { borderColor: "primary.main" },
             }}
           >
-            <IconButton onClick={() => setOpenSearch(!openSearch)}>
-              <SearchIcon />
+            <IconButton
+              onClick={() =>
+                isMobile
+                  ? setMobileOpen(!mobileOpen)
+                  : setOpenSearch(!openSearch)
+              }
+            >
+              {isMobile ? <MenuIcon /> : <SearchIcon />}
             </IconButton>
 
             {!isMobile && openSearch && (
@@ -229,15 +235,13 @@ export default function Topbar({ mode, onToggleMode }) {
         {isMobile && (
           <Box
             sx={{
-              ml: 9,
-              width: "85%",
+              width: "100%",
               display: "flex",
               alignItems: "center",
-              borderRadius: "17px",
+              borderRadius: "14px",
               border: "1px solid",
               borderColor: "primary.submain",
-              "&:focus-within": { borderColor: "primary.main" },
-              padding: "4px 6px",
+              padding: "4px 8px",
             }}
           >
             <SearchIcon />
@@ -249,62 +253,25 @@ export default function Topbar({ mode, onToggleMode }) {
         )}
       </Toolbar>
 
-      <Menu
-        anchorEl={langAnchor}
-        open={Boolean(langAnchor)}
-        onClose={() => setLangAnchor(null)}
-        PaperProps={{ sx: { minWidth: 180, borderRadius: 0 } }}
-      >
+      <Menu anchorEl={langAnchor} open={Boolean(langAnchor)} onClose={() => setLangAnchor(null)} PaperProps={{ sx: { minWidth: 160, borderRadius: 0 } }}>
         <MenuItem onClick={() => changeLanguage("en")}>{t("en")}</MenuItem>
         <MenuItem onClick={() => changeLanguage("fa")}>{t("fa")}</MenuItem>
         <MenuItem onClick={() => changeLanguage("ar")}>{t("ar")}</MenuItem>
       </Menu>
 
-      <Menu
-        anchorEl={profileAnchor}
-        open={Boolean(profileAnchor)}
-        onClose={() => setProfileAnchor(null)}
-        PaperProps={{ sx: { minWidth: 200, borderRadius: 0 } }}
-      >
+      <Menu anchorEl={profileAnchor} open={Boolean(profileAnchor)} onClose={() => setProfileAnchor(null)} PaperProps={{ sx: { minWidth: 200, borderRadius: 0 } }} >
         <Box className="py-2 px-2 text-center">
-          <Typography variant="body2" color="text.secondary">
-            {t("signedInAs")}:
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {email || t("noEmailSet")}
-          </Typography>
+          <Typography variant="body2" color="text.secondary"> {t("signedInAs")}: </Typography>
+          <Typography variant="body2" color="text.secondary"> {email || t("noEmailSet")} </Typography>
         </Box>
-
         <Divider />
-
-        <MenuItem
-          onClick={() => {
-            goToSection("profile");
-            setProfileAnchor(null);
-          }}
-          sx={{ gap: 1 }}
-        >
-          <PersonIcon fontSize="small" />
-          {t("profile")}
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            goToSection("preferences");
-            setProfileAnchor(null);
-          }}
-          sx={{ gap: 1 }}
-        >
-          <SettingsIcon fontSize="small" />
-          {t("settings")}
-        </MenuItem>
-
+        <MenuItem onClick={() => { goToSection("profile"); setProfileAnchor(null); }} sx={{ gap: 1 }} >
+          <PersonIcon fontSize="small" /> {t("profile")} </MenuItem>
+        <MenuItem onClick={() => { goToSection("preferences"); setProfileAnchor(null); }} sx={{ gap: 1 }} >
+          <SettingsIcon fontSize="small" /> {t("settings")} </MenuItem>
         <Divider />
-
         <MenuItem onClick={handleSignOut} sx={{ gap: 1 }}>
-          <LogoutIcon fontSize="small" />
-          {t("signOut")}
-        </MenuItem>
+          <LogoutIcon fontSize="small" /> {t("signOut")} </MenuItem>
       </Menu>
     </AppBar>
   );
