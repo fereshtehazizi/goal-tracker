@@ -332,12 +332,12 @@ const Calendar = () => {
       </Dialog>
 
       <Snackbar
-        sx={{ ml: 16 }}
+        sx={{ ml: {md: 16, xs: 1} }}
         open={toast.open}
         autoHideDuration={2500}
         onClose={() => setToast({ ...toast, open: false })}
       >
-        <Alert sx={{ ml: 16 }} severity={toast.severity} variant="filled">
+        <Alert sx={{ ml: {md: 16, xs: 1} }} severity={toast.severity} variant="filled">
           {toast.msg}
         </Alert>
       </Snackbar>
