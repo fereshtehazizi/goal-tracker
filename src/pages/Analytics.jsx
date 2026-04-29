@@ -1,11 +1,15 @@
 import { useMemo } from "react";
 import { Box, Card, Typography, CircularProgress } from "@mui/material";
 import { LineChart, BarChart, PieChart } from "@mui/x-charts";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTranslation } from "react-i18next";
 
 import useGoals from "../hooks/useGoals";
 
 export default function AnalyticsPage() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { t } = useTranslation();
 
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -25,7 +29,7 @@ export default function AnalyticsPage() {
     return goals.reduce(
       (max, g) =>
         (g.completedDays?.length || 0) >
-        (max?.completedDays?.length || 0)
+          (max?.completedDays?.length || 0)
           ? g
           : max,
       goals[0] || {}
@@ -71,15 +75,15 @@ export default function AnalyticsPage() {
 
   const pieData = hasData
     ? [
-        { id: 0, value: completed, label: `${t("completed")} (${completed})` },
-        { id: 1, value: inProgress, label: `${t("inProgress")} (${inProgress})` },
-        { id: 2, value: inactive, label: `${t("inactive")} (${inactive})` },
-      ]
+      { id: 0, value: completed, label: `${t("completed")} (${completed})` },
+      { id: 1, value: inProgress, label: `${t("inProgress")} (${inProgress})` },
+      { id: 2, value: inactive, label: `${t("inactive")} (${inactive})` },
+    ]
     : [
-        { id: 0, value: 1, label: t("completed0") },
-        { id: 1, value: 1, label: t("inProg0") },
-        { id: 2, value: 1, label: t("inAct0") },
-      ];
+      { id: 0, value: 1, label: t("completed0") },
+      { id: 1, value: 1, label: t("inProg0") },
+      { id: 2, value: 1, label: t("inAct0") },
+    ];
 
   const goalsWeekly = days.map((_, i) =>
     goals.filter((g) =>
@@ -168,7 +172,7 @@ export default function AnalyticsPage() {
               <LineChart
                 xAxis={[{
                   scaleType: "point",
-                  data: ["Sat","Sun","Mon","Tue","Wed","Thu","Fri"],
+                  data: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
                 }]}
                 series={[{
                   data: xpDailyWeek,
@@ -185,13 +189,28 @@ export default function AnalyticsPage() {
               </Typography>
 
               <PieChart
-                series={[{
-                  innerRadius: 45,
-                  outerRadius: 90,
-                  data: pieData,
-                }]}
-                colors={["#D6C89A","#2F5D78","#7A1F1F"]}
+                series={[
+                  {
+                    innerRadius: 45,
+                    outerRadius: 90,
+                    data: pieData,
+                  },
+                ]}
+                colors={["#D6C89A", "#2F5D78", "#7A1F1F"]}
                 height={300}
+                slotProps={{
+                  legend: {
+                    direction: isMobile ? "row" : "column",
+                    position: isMobile
+                      ? { vertical: "bottom", horizontal: "middle" }
+                      : { vertical: "middle", horizontal: "right" },
+                    itemMarkWidth: 10,
+                    itemMarkHeight: 10,
+                    labelStyle: {
+                      fontSize: 12,
+                    },
+                  },
+                }}
               />
             </Card>
 
