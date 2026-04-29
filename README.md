@@ -55,7 +55,7 @@ Missing a day resets streak to 0
 
 
 ---
-![Desktop Screenshot](public/screenshot.JPG) ![Mobile Screenshot](public/screenshot2.JPG)
+![Desktop Screenshot](public/screenshot.JPG) ![Mobile Screenshot](public/screenshot3.jpg)
 
 
 
